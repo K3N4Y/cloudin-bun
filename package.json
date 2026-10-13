@@ -1,0 +1,16 @@
+{
+  "name": "cloudin-bun",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:web": "bun --filter web dev",
+    "dev:api": "bun --filter api dev",
+    "dev": "bun --filter '*' dev"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  }
+}

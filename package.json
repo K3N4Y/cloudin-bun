@@ -5,7 +5,7 @@
     "apps/*"
   ],
   "scripts": {
-    "dev:web": "bun --filter web dev",
+    "dev:landing": "bun --filter landing dev",
     "dev:api": "bun --filter api dev",
     "dev": "bun --filter '*' dev"
   },

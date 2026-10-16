@@ -41,7 +41,17 @@ bun-debug.log*
 .DS_Store
 Thumbs.db
 
-# local databases
+# local databases (SQLite files and their WAL/journal sidecars)
 *.sqlite
 *.sqlite3
 *.db
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.db-wal
+*.db-shm
+*.db-journal
+
+# local agent / audit scratch notes
+.audit/

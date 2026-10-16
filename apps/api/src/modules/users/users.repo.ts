@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../db/client";
-import { roles, users } from "../../db/schema";
-import type { CreateUserInput, PublicUser } from "./users.schema";
+import { roles, users, type User } from "../../db/schema";
+import { toPublicUser, type CreateUserInput, type PublicUser } from "./users.schema";
 
 export async function createUser(input: CreateUserInput): Promise<PublicUser> {
   const passwordHash = await Bun.password.hash(input.password);
@@ -21,6 +21,13 @@ export async function createUser(input: CreateUserInput): Promise<PublicUser> {
     throw new Error("createUser: insert returned no row");
   }
 
-  const { passwordHash: _passwordHash, ...publicUser } = row;
-  return publicUser;
+  return toPublicUser(row);
+}
+
+export async function findByEmail(email: string): Promise<User | undefined> {
+  return db.select().from(users).where(eq(users.email, email)).get();
+}
+
+export async function findById(id: number): Promise<User | undefined> {
+  return db.select().from(users).where(eq(users.id, id)).get();
 }

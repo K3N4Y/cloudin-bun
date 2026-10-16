@@ -1,5 +1,10 @@
 import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
+export const roles = sqliteTable("roles", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull().unique(),
+});
+
 export const users = sqliteTable(
   "users",
   {
@@ -8,6 +13,9 @@ export const users = sqliteTable(
     username: text("username").notNull(),
     passwordHash: text("password_hash").notNull(),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().defaultNow(),
+    roleId: integer("role_id")
+      .notNull()
+      .references(() => roles.id, { onDelete: "restrict" }),
   },
   (table) => [
     uniqueIndex("users_email_unique").on(table.email),

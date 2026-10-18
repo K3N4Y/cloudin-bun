@@ -1,4 +1,14 @@
-import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text, uniqueIndex, type AnySQLiteColumn } from "drizzle-orm/sqlite-core";
+
+export const NAMESPACE_NAMES = ["prod", "staging", "workspace", "agents"] as const;
+export type NamespaceName = (typeof NAMESPACE_NAMES)[number];
+
+export const ROLE_NAMES = ["admin", "moderator", "user"] as const;
+export type RoleName = (typeof ROLE_NAMES)[number];
+
+export function parseRoleName(raw: string): RoleName | null {
+  return (ROLE_NAMES as readonly string[]).includes(raw) ? (raw as RoleName) : null;
+}
 
 export const roles = sqliteTable("roles", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -42,3 +52,28 @@ export const sessions = sqliteTable(
 
 export type Session = typeof sessions.$inferSelect;
 export type NewSession = typeof sessions.$inferInsert;
+
+export const repositories = sqliteTable(
+  "repositories",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    namespace: text("namespace", { enum: NAMESPACE_NAMES }).notNull(),
+    ownerId: integer("owner_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "restrict" }),
+    sourceRepoId: integer("source_repo_id").references((): AnySQLiteColumn => repositories.id, {
+      onDelete: "restrict",
+    }),
+    parentWorkspaceId: integer("parent_workspace_id").references((): AnySQLiteColumn => repositories.id, {
+      onDelete: "restrict",
+    }),
+    remote: text("remote"),
+    defaultBranch: text("default_branch").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex("repositories_namespace_name_unique").on(table.namespace, table.name)],
+);
+
+export type Repository = typeof repositories.$inferSelect;
+export type NewRepository = typeof repositories.$inferInsert;

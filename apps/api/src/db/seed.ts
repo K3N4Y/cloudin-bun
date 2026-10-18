@@ -1,11 +1,9 @@
 import { db } from "./client";
-import { roles } from "./schema";
-
-const ROLES = ["admin", "moderator", "user"];
+import { roles, ROLE_NAMES } from "./schema";
 
 await db
   .insert(roles)
-  .values(ROLES.map((name) => ({ name })))
+  .values(ROLE_NAMES.map((name) => ({ name })))
   .onConflictDoNothing({ target: roles.name });
 
 console.log("Roles seeded");

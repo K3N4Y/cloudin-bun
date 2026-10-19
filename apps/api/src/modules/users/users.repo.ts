@@ -28,6 +28,10 @@ export async function findByEmail(email: string): Promise<User | undefined> {
   return db.select().from(users).where(eq(users.email, email)).get();
 }
 
+export async function findByUsername(username: string): Promise<User | undefined> {
+  return db.select().from(users).where(eq(users.username, username)).get();
+}
+
 export async function findById(id: number): Promise<User | undefined> {
   return db.select().from(users).where(eq(users.id, id)).get();
 }

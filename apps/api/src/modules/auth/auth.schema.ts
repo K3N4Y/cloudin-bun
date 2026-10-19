@@ -1,9 +1,9 @@
 import { randomBytes } from "node:crypto";
 import { z } from "zod";
-import type { PublicUser } from "../users/users.schema";
+import { emailSchema, type PublicUser } from "../users/users.schema";
 
 export const loginSchema = z.object({
-  email: z.email(),
+  email: emailSchema,
   password: z.string().min(1),
 });
 export type LoginInput = z.infer<typeof loginSchema>;

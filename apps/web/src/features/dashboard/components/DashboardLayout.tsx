@@ -9,7 +9,6 @@ export function DashboardLayout({ children }: { children?: ReactNode }) {
       <aside aria-label="Sidebar" className="w-[248px] shrink-0 border-r border-edge p-3">
         <SidebarSearch />
         <SidebarNav />
-        <div aria-hidden="true" className="mt-3 border-t border-edge" />
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <header aria-label="Topbar" className="h-16 shrink-0 border-b border-edge" />

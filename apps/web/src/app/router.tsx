@@ -1,8 +1,9 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, createRoute, createRouter, Outlet, redirect } from "@tanstack/react-router";
-import { HomePage, LoginPage, RegisterPage } from "../features/auth";
+import { LoginPage, RegisterPage } from "../features/auth";
 import { SessionSkeleton } from "../features/auth/components/SessionSkeleton";
 import { sessionQuery } from "../features/auth/session";
+import { DashboardPage } from "../features/dashboard";
 import { queryClient } from "./query";
 
 export type RouterContext = { queryClient: QueryClient };
@@ -21,11 +22,11 @@ const requireAnonymous = async ({ context }: { context: RouterContext }) => {
   if (user) throw redirect({ to: "/" });
 };
 
-const homeRoute = createRoute({
+const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
   beforeLoad: requireSession,
-  component: HomePage,
+  component: DashboardPage,
 });
 
 const loginRoute = createRoute({
@@ -42,7 +43,7 @@ const registerRoute = createRoute({
   component: RegisterPage,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, loginRoute, registerRoute]);
+const routeTree = rootRoute.addChildren([dashboardRoute, loginRoute, registerRoute]);
 
 export const router = createRouter({
   routeTree,

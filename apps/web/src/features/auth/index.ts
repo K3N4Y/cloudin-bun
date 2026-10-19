@@ -1,4 +1,3 @@
-export { HomePage } from "./routes/HomePage";
 export { LoginPage } from "./routes/LoginPage";
 export { RegisterPage } from "./routes/RegisterPage";
 export { useLogin, useLogout, useRegister } from "./api";

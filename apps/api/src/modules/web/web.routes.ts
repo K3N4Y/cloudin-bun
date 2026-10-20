@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { serveWebFile, serveWebShell } from "./web.service";
 
 export const webRoutes = new Hono()
+    .get("/", (c) => c.redirect("/app"))
     .get("/app", () => serveWebShell())
     .get("/app/*", async (c) => {
         const rel = c.req.path.slice("/app".length);

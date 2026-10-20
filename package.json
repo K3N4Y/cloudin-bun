@@ -5,11 +5,10 @@
     "apps/*"
   ],
   "scripts": {
-    "dev:landing": "bun --filter landing dev",
     "dev:api": "bun --filter api dev",
     "dev:web": "bun --filter web dev",
     "dev": "bun --filter '*' dev",
-    "prod": "bun --filter landing build && bun --filter web build && bun --filter api start"
+    "prod": "bun --filter web build && bun --filter api start"
   },
   "devDependencies": {
     "@types/bun": "latest",
